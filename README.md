@@ -14,3 +14,24 @@ The dataset for this challenge consists of three images, each larger than the pr
 * `WD-76845-097.ome.tif` - an 80GB image of primary human colorectal adenocarcinoma. The image is the 97th serial section of a single multi-TB dataset [TNP-SARDANA](https://www.cycif.org/data/tnp-2020/osd-crc-case-1-ffpe-cycif-pilot) and contains 27,120 x 26,139 pixels in 40 channels.
 
 All three images were acquired using Cyclic Immunofluorescence (CyCIF) [[Lin, et al.](https://elifesciences.org/articles/31657)] with the first channel of every 4-channel cycle corresponding to the nuclear stain.
+
+## Setup
+
+* Ensure that you have [Git](https://git-scm.com/) and [Conda](https://docs.conda.io/en/latest/) available in your environment.
+* Fork the Cellpose repository to your own GitHub account by going to https://github.com/MouseLand/cellpose, clicking "Fork" in the top right corner and selecting yourself.
+* Clone your fork to the local environment: `git clone https://github.com/<username>/cellpose.git`, replacing `<username>` with your GitHub username.
+* Instantiate a new Conda environment and install Cellpose from your local copy of the source code, allowing you to edit and test the code in a continuous development cycle.
+
+```
+conda create -y --name cellpose python=3.8
+conda activate cellpose
+python -m pip install -e ./cellpose
+```
+
+where the last command should be run in the same directory as where you executed `git clone`.
+
+* You may find it useful to visualize the input images and Cellpose output. Install `napari` to help with this.
+
+```
+python -m pip install PyQt5 napari
+```
