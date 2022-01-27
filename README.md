@@ -36,7 +36,7 @@ where the last command should be run in the same directory as where you executed
 python -m pip install PyQt5 napari
 ```
 
-## Run Cellpose on data
+## Running Cellpose on data
 
 Download the above images and place each one in a separate folder. Provide individual folders as input to Cellpose. For example,
 
@@ -77,3 +77,23 @@ where
 $ ls exemplar-001/
 exemplar-001.ome_cp_masks.tif  exemplar-001.ome_seg.npy  exemplar-001.ome.tif
 ```
+
+## Visualizing image
+
+A straightforward way to inspect input images and segmentation masks produced by Cellpose is by using `tifffile` and `napari` Python packages. The following Python script will load the image and bring up a Napari viewer for interactive browsing.
+
+``` python
+import tifffile
+import napari
+
+img = tifffile.imread('exemplar-001.ome.tif')
+napari.view_image(img, channel_axis=0)
+```
+
+The output segmentation mask can be visualized similarly
+``` python
+mask = tifffile.imread('exemplar-001.ome_cp_masks.tif')
+napari.view_image(mask)
+```
+
+Note that `img.shape` is `(12, 3138, 2509)`, highlighting the input image is multi-channel. As with Cellpose, we tell Napari that the first element (i.e., `0` in 0-based indexing) of the array indexes over the channels. Conversely, `mask.shape` is `(3138, 2509)`, because the segmentation mask is a 2D array of integer indices that assign individual pixels to a given cell. Thus, no `channel_axis` specification is needed when viewing the image.
