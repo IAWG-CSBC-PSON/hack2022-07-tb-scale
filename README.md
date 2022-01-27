@@ -78,9 +78,9 @@ $ ls exemplar-001/
 exemplar-001.ome_cp_masks.tif  exemplar-001.ome_seg.npy  exemplar-001.ome.tif
 ```
 
-## Visualizing image
+## Visualizing images
 
-A straightforward way to inspect input images and segmentation masks produced by Cellpose is by using `tifffile` and `napari` Python packages. The following Python script will load the image and bring up a Napari viewer for interactive browsing.
+A straightforward way to inspect input images and segmentation masks produced by Cellpose is by using `tifffile` and `napari` packages in Python. The following Python script will load the image and bring up a Napari viewer for interactive browsing.
 
 ``` python
 import tifffile
@@ -90,10 +90,14 @@ img = tifffile.imread('exemplar-001.ome.tif')
 napari.view_image(img, channel_axis=0)
 ```
 
+<img src="images/napari1.png" width="50%" height="50%">
+
 The output segmentation mask can be visualized similarly
 ``` python
 mask = tifffile.imread('exemplar-001.ome_cp_masks.tif')
 napari.view_image(mask)
 ```
 
-Note that `img.shape` is `(12, 3138, 2509)`, highlighting the input image is multi-channel. As with Cellpose, we tell Napari that the first element (i.e., `0` in 0-based indexing) of the array indexes over the channels. Conversely, `mask.shape` is `(3138, 2509)`, because the segmentation mask is a 2D array of integer indices that assign individual pixels to a given cell. Thus, no `channel_axis` specification is needed when viewing the image.
+<img src="images/napari2.png" width="50%" height="50%">
+
+Note that `img.shape` is `(12, 3138, 2509)`, highlighting that the input image is multi-channel. As with Cellpose, we tell Napari that the first element (i.e., `0` in 0-based indexing) of the array indexes over the channels. Conversely, `mask.shape` is `(3138, 2509)`, because the segmentation mask is a 2D array of integer indices that assign individual pixels to corresponding cells. Thus, no `channel_axis` specification is needed when viewing a 2D image.
