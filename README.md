@@ -30,8 +30,50 @@ python -m pip install -e ./cellpose
 
 where the last command should be run in the same directory as where you executed `git clone`.
 
-* You may find it useful to visualize the input images and Cellpose output. Install `napari` to help with this.
+* You may find it useful to visualize input images and Cellpose output. Install `napari` to help with this.
 
 ```
 python -m pip install PyQt5 napari
+```
+
+## Run Cellpose on data
+
+Download the above images and place each one in a separate folder. Provide individual folders as input to Cellpose. For example,
+
+```
+$ ls
+cellpose  exemplar-001
+
+$ ls exemplar-001/
+exemplar-001.ome.tif
+
+$ python -m cellpose --dir exemplar-001/ --pretrained_model nuclei --save_tif --channel_axis 0 --chan 1 --verbose
+2022-01-27 16:56:08,619 [INFO] WRITING LOG OUTPUT TO /home/sokolov/.cellpose/run.log
+2022-01-27 16:56:08,619 [INFO] >>>> using CPU
+2022-01-27 16:56:08,620 [INFO] >>>> running cellpose on 1 images using chan_to_seg RED and chan (opt) NONE
+2022-01-27 16:56:08,620 [INFO] >>>> using CPU
+2022-01-27 16:56:08,703 [INFO] >>>> using diameter 30.00 for all images
+2022-01-27 16:56:08,704 [INFO] 0%|          | 0/1 [00:00<?, ?it/s]
+2022-01-27 16:56:09,196 [INFO] ~~~ FINDING MASKS ~~~
+2022-01-27 16:56:09,196 [INFO] Evaluating with flow_threshold 0.40, mask_threshold 0.00
+2022-01-27 16:56:41,164 [INFO] mask_threshold is 0.000000
+2022-01-27 16:56:49,425 [INFO] >>>> TOTAL TIME 40.23 sec
+2022-01-27 16:56:49,968 [INFO] 100%|##########| 1/1 [00:41<00:00, 41.26s/it]
+2022-01-27 16:56:49,968 [INFO] 100%|##########| 1/1 [00:41<00:00, 41.26s/it]
+2022-01-27 16:56:49,968 [INFO] >>>> completed in 41.350 sec
+```
+
+where
+
+* `--dir` - specifies the input directory
+* `--pretrained_model nuclei` - requests that Cellposes uses its built-in model for segmenting nuclei
+* `--channel_axis 0` - specifices that the input image (which has shape [12, 3138, 2509]) indexes channels by the 0^th entry.
+  * *Python uses 0-based indexing, so the first entry has index 0.*
+* `--chan 1` - asks Cellpose to segment nuclei based on the first channel in the image.
+  * *Confusingly, Cellpose uses 1-based indexing for channels.*
+* `--save_tif` - specifies the output format, which can now be found in the same directory as the input
+
+```
+$ ls exemplar-001/
+exemplar-001.ome_cp_masks.tif  exemplar-001.ome_seg.npy  exemplar-001.ome.tif
 ```
