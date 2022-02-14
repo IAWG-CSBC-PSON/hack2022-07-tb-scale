@@ -113,3 +113,12 @@ As you work to understand and optimize the method, consider the following questi
 * **[Advanced]** CellPose allows users to [train custom models](https://cellpose.readthedocs.io/en/latest/train.html) for their imaging data. (This involves first labeling data with a [GUI interface](https://cellpose.readthedocs.io/en/latest/gui.html)). Custom models can utilize multiple channels to produce a segmentation mask. How does runtime and memory usage of custom models compare to the pre-trained nuclei model? How do custom models scale with the number of input channels?
 
 Remember that while optimizing the code is the primary objective of the challenge, equally important is being able to say something about what aspects of cell segmentation introduce bottlenecks and provide some guidance on the best way to overcome them. 
+
+## Other useful resources
+
+* Profiling Python code: https://docs.python.org/3/library/profile.html
+* Memory profilers for Python:
+  * https://github.com/pythonprofilers/memory_profiler  
+  * https://github.com/zhuyifei1999/guppy3/
+  * https://pympler.readthedocs.io/en/latest/
+  
