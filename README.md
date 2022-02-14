@@ -101,3 +101,15 @@ napari.view_image(mask)
 <img src="images/napari2.png" width="50%" height="50%">
 
 Note that `img.shape` is `(12, 3138, 2509)`, highlighting that the input image is multi-channel. As with Cellpose, we tell Napari that the first element (i.e., `0` in 0-based indexing) of the array indexes over the channels. Conversely, `mask.shape` is `(3138, 2509)`, because the segmentation mask is a 2D array of integer indices that assign individual pixels to corresponding cells. Thus, no `channel_axis` specification is needed when viewing a 2D image.
+
+## Specific questions of interest
+
+As you work to understand and optimize the method, consider the following questions of interest:
+
+* What aspects of the software contain computational bottlenecks? Is it file I/O, application of a model to the data, or post-processing of the model output (e.g., gradient combination)?
+* How does runtime and memory usage scale with image size (width, height)? Are there obvious opporutinities for parallelism?
+* Are there certain image properties (e.g., densely packed cells) that present a more demanding computational task?
+* CellPose [command-line options](https://cellpose.readthedocs.io/en/latest/command.html#run-settings) include `--fast_mode`. How much faster is the `--fast_mode` and what is the amount of segmentation accuracy that is sacrificed?
+* **[Advanced]** CellPose allows users to [train custom models](https://cellpose.readthedocs.io/en/latest/train.html) for their imaging data. (This involves first labeling data with a [GUI interface](https://cellpose.readthedocs.io/en/latest/gui.html)). Custom models can utilize multiple channels to produce a segmentation mask. How does runtime and memory usage of custom models compare to the pre-trained nuclei model? How do custom models scale with the number of input channels?
+
+Remember that while optimizing the code is the primary objective of the challenge, equally important is being able to say something about what aspects of cell segmentation introduce bottlenecks and provide some guidance on the best way to overcome them. 
